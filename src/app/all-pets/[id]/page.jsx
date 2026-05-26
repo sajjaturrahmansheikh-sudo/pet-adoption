@@ -229,11 +229,11 @@ const PetDetails = async ({ params }) => {
                         {/* Buttons */}
                         <div className="mt-12 flex flex-col gap-4 sm:flex-row">
 
-                            <button className="rounded-2xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600">
+                            <button className="cursor-pointer rounded-2xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600">
                                 Adopt Now
                             </button>
 
-                            <button className="flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:border-orange-400 hover:text-orange-500">
+                            <button className="cursor-pointer flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:border-orange-400 hover:text-orange-500">
 
                                 <FaHeart />
 

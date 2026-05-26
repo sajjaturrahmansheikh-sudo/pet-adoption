@@ -50,11 +50,11 @@ export function MyNav() {
                     <div className="hidden md:flex items-center gap-4">
 
 
-                        <Link href="/login" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Login</Link>
+                        <Link href="/login" className="font-medium text-slate-700 hover:text-orange-600 transition-colors">Login</Link>
                         <Link href="/register">
 
-                            <Button color="primary" className="font-bold rounded-full px-8 shadow-lg shadow-blue-600/20">
-                                Join Free
+                            <Button  className="bg-orange-600 font-bold rounded-full px-8 shadow-lg shadow-blue-600/20">
+                                Register
                             </Button>
                         </Link>
 
