@@ -1,21 +1,10 @@
 import PetCard from "@/components/PetCard";
+import { fetchPets } from "@/lib/pets/data";
 import {
     Button,
-    SearchField,
-    Select
+    SearchField
 } from "@heroui/react";
 
-const fetchPets = async () => {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/all-pets`,
-        {
-            cache: "no-store",
-        }
-    );
-
-    const data = await res.json();
-    return data || [];
-};
 
 const AllPets = async () => {
 

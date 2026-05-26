@@ -1,7 +1,9 @@
 import { Avatar, Card } from '@heroui/react';
+import Link from 'next/link';
 import React from 'react';
 
 const PetCard = ({ pet }) => {
+    const {_id} = pet;
     return (
         <Card className='group overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-100'>
 
@@ -38,9 +40,9 @@ const PetCard = ({ pet }) => {
                         $ {pet.price}
                     </p>
 
-                    <button className='cursor-pointer rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-orange-600 hover:shadow-lg'>
+                    <Link href={`/all-pets/${_id}`}><button className='cursor-pointer rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-orange-600 hover:shadow-lg'>
                         View Details
-                    </button>
+                    </button></Link>
                 </div>
 
             </Card.Content>
