@@ -2,6 +2,7 @@ import { Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { MyNav } from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   variable: "--font-Poppins-sans",
@@ -32,7 +33,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
-
+        <Toaster />
       </body>
     </html>
   );

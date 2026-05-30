@@ -1,4 +1,8 @@
+'use client'
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import {
     FaEnvelope,
     FaLock,
@@ -9,6 +13,39 @@ import {
 } from "react-icons/fa6";
 
 const RegisterPage = () => {
+    const router = useRouter()
+
+    const handleRegister = async (e) => {
+
+
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const registerData = Object.fromEntries(formData.entries());
+
+
+
+        const { data, error } = await authClient.signUp.email({
+            name: registerData.name,
+            email: registerData.email,
+            password: registerData.password,
+        });
+
+        if (error) {
+            console.log(error);
+            toast.error(error.message || "Registration Failed");
+            return;
+        }
+
+        console.log(data);
+        toast.success("Account Created Successfully");
+
+        router.push("/")
+    };
+
+
+
     return (
         <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-100">
 
@@ -79,7 +116,7 @@ const RegisterPage = () => {
 
 
                         {/* Form */}
-                        <form className="space-y-6">
+                        <form onSubmit={handleRegister} className="space-y-6">
 
                             {/* Name */}
                             <div>
@@ -93,6 +130,7 @@ const RegisterPage = () => {
                                     <FaUser className="text-gray-400" />
 
                                     <input
+                                        name="name"
                                         type="text"
                                         placeholder="Enter your full name"
                                         className="h-full w-full bg-transparent px-3 outline-none"
@@ -116,6 +154,7 @@ const RegisterPage = () => {
                                     <FaEnvelope className="text-gray-400" />
 
                                     <input
+                                        name="email"
                                         type="email"
                                         placeholder="Enter your email"
                                         className="h-full w-full bg-transparent px-3 outline-none"
@@ -137,6 +176,7 @@ const RegisterPage = () => {
                                     <FaUser className="text-gray-400" />
 
                                     <input
+                                        name="image"
                                         type="url"
                                         placeholder="Enter your profile image URL"
                                         className="h-full w-full bg-transparent px-3 outline-none"
@@ -158,6 +198,7 @@ const RegisterPage = () => {
                                     <FaLock className="text-gray-400" />
 
                                     <input
+                                        name="password"
                                         type="password"
                                         placeholder="Create password"
                                         className="h-full w-full bg-transparent px-3 outline-none"
@@ -169,31 +210,9 @@ const RegisterPage = () => {
 
 
 
-                            {/* Confirm Password */}
-                            <div>
-
-                                <label className="mb-2 block text-sm font-medium text-gray-700">
-                                    Confirm Password
-                                </label>
-
-                                <div className="flex h-14 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition-all duration-300 focus-within:border-orange-400 focus-within:bg-white">
-
-                                    <FaLock className="text-gray-400" />
-
-                                    <input
-                                        type="password"
-                                        placeholder="Confirm password"
-                                        className="h-full w-full bg-transparent px-3 outline-none"
-                                    />
-
-                                </div>
-
-                            </div>
-
-
 
                             {/* Button */}
-                            <button className="flex h-14 w-full items-center justify-center rounded-2xl bg-orange-500 text-lg font-semibold text-white shadow-lg shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600">
+                            <button type="submit" className=" cursor-pointer flex h-14 w-full items-center justify-center rounded-2xl bg-orange-500 text-lg font-semibold text-white shadow-lg shadow-orange-200 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600">
 
                                 Create Account
 

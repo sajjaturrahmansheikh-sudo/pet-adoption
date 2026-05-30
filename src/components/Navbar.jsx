@@ -1,26 +1,43 @@
 "use client";
 
-import logo from "../../public/assets/pawprint.png"
-
+import logo from "../../public/assets/pawprint.png";
 import { useState, useEffect } from "react";
-import { LayoutDashboard, Menu, User, X } from "lucide-react";
+import {
+    LayoutDashboard,
+    Menu,
+    User,
+    X,
+    Plus,
+    LogOut,
+    Settings,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 import Image from "next/image";
 import NavLink from "./NavLink";
+import { signOut, useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export function MyNav() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
+    const router = useRouter();
 
-
+    const { data: session, isPending } = useSession();
+    console.log(session);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 10);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+
+    const handleLogOut = async () => {
+        await signOut();
+        router.push("/")
+    }
 
 
 
@@ -50,44 +67,97 @@ export function MyNav() {
                     <div className="hidden md:flex items-center gap-4">
 
 
-                        <Link href="/login" className="font-medium text-slate-700 hover:text-orange-600 transition-colors">Login</Link>
-                        <Link href="/register">
+                        {
+                            !isPending && !session ? <>
+                                <>
+                                    <Link href="/login">
+                                        <Button variant="light">Login</Button>
+                                    </Link>
 
-                            <Button  className="bg-orange-600 font-bold rounded-full px-8 shadow-lg shadow-blue-600/20">
-                                Register
-                            </Button>
-                        </Link>
+                                    <Link href="/register">
+                                        <Button
+                                            className="
+                                            rounded-full
+                                            bg-orange-500
+                                            px-6
+                                            font-semibold
+                                            text-white
+                                            shadow-lg
+                                            shadow-orange-200
+                                            transition-all
+                                            duration-300
+                                            hover:-translate-y-1
+                                            hover:bg-orange-600
+                                        "
+                                        >
+                                            Register
+                                        </Button>
+                                    </Link>
+                                </>
+                            </> :
+                                <div className="relative group">
+                                    <button className="flex items-center gap-3 rounded-full p-1 hover:bg-orange-50">
+                                        <Image
+                                            src={
+                                                session?.user?.image ||
+                                                "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"
+                                            }
+                                            alt="avatar"
+                                            width={40}
+                                            height={40}
+                                            className="h-10 w-10 rounded-full object-cover"
+                                        />
 
-                        <div className="relative group">
-                            <button className="flex items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border">
-                                <Image
-                                    width={40}
-                                    height={40}
-                                    src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"
-                                    alt="avatar"
-                                    className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-600/10"
-                                />
-                                <div className="text-left hidden lg:block">
-                                    <p className="text-sm font-bold truncate max-w-25">Emon</p>
-                                    <p className="text-[10px] text-slate-500">Student</p>
+                                        <div className="hidden text-left lg:block">
+                                            <p className="max-w-[140px] truncate text-sm font-semibold">
+                                                {session?.user?.name}
+                                            </p>
+
+                                            <p className="text-xs text-gray-500">
+                                                Pet Lover
+                                            </p>
+                                        </div>
+                                    </button>
+
+                                    <div className="absolute right-0 top-14 hidden w-64 overflow-hidden rounded-3xl border bg-white shadow-2xl group-hover:block">
+                                        <div className="bg-orange-50 px-5 py-4">
+                                            <p className="font-semibold">
+                                                {session?.user?.name}
+                                            </p>
+
+                                            <p className="truncate text-xs text-slate-500">
+                                                {session?.user?.email}
+                                            </p>
+                                        </div>
+
+                                        <Link
+                                            href="/dashboard"
+                                            className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50"
+                                        >
+                                            <LayoutDashboard size={16} />
+                                            Dashboard
+                                        </Link>
+
+                                        <Link
+                                            href="/settings"
+                                            className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50"
+                                        >
+                                            <Settings size={16} />
+                                            Settings
+                                        </Link>
+
+                                        <button
+                                            onClick={handleLogOut}
+                                            className="flex w-full items-center gap-3 px-5 py-3 text-red-500 hover:bg-red-50"
+                                        >
+                                            <LogOut size={16} />
+                                            Logout
+                                        </button>
+                                    </div>
                                 </div>
-                            </button>
-                            <div className="absolute right-0 top-12 w-56 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden group-hover:flex flex-col py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                                <div className="px-4 py-3 border-b border-slate-100">
-                                    <p className="font-bold text-sm">Welcome back!</p>
-                                    <p className="text-xs truncate text-slate-500">sajjaturrahmansheikh@gmail.com</p>
-                                </div>
-                                <Link href="/dashboard" className="px-4 py-2 text-sm hover:bg-muted flex items-center gap-3 transition-colors">
-                                    <LayoutDashboard className="w-4 h-4" /> Dashboard
-                                </Link>
-                                <Link href="/settings" className="px-4 py-2 text-sm hover:bg-muted flex items-center gap-3 transition-colors">
-                                    <User className="w-4 h-4" />Setting
-                                </Link>
-                                <button className="px-4 py-2 text-sm text-red-500 hover:bg-red-50 flex items-center gap-3 transition-colors text-left">
-                                    Log Out
-                                </button>
-                            </div>
-                        </div>
+                        }
+
+
 
 
 
@@ -105,33 +175,40 @@ export function MyNav() {
             {/* Mobile menu */}
             {
                 isMenuOpen && (
-                    <div className="md:hidden px-4 pt-2 pb-6 space-y-2 bg-white border-b border-slate-200 animate-in slide-in-from-top duration-300">
-                        <NavLink href="/" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">Home</NavLink>
-                        <NavLink href="/all-pets" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">All Pets</NavLink>
-                        <NavLink href="/my-requests" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">My Requests</NavLink>
-                        <NavLink href="/add-pet" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">Add Pet</NavLink>
-                        <div className="pt-4 border-t border-border mt-4">
+                    <div className="border-t bg-white p-5 md:hidden">
+                        <div className="flex flex-col gap-2">
+                            <NavLink href="/">Home</NavLink>
+                            <NavLink href="/all-pets">All Pets</NavLink>
+                            <NavLink href="/my-requests">My Requests</NavLink>
+                            <NavLink href="/add-pet">Add Pet</NavLink>
+                        </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <Link href="/login">
-                                    <Button href="/login" variant="bordered" className="rounded-xl">Login</Button>
-                                </Link>
-                                <Link href="/register">
-                                    <Button href="/register" color="primary" className="rounded-xl">Join Free</Button>
-                                </Link>
-                            </div>
+                        <div className="mt-5">
+                            {session ? (
+                                <Button
+                                    onClick={handleLogOut}
+                                    className="w-full bg-red-500 text-white"
+                                >
+                                    Logout
+                                </Button>
+                            ) : (
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Link href="/login">
+                                        <Button variant="bordered" className="w-full">
+                                            Login
+                                        </Button>
+                                    </Link>
 
-                            <div className="flex flex-col gap-2">
-                                <p className="px-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Account</p>
-                                <button
-
-                                    className="block w-full text-left px-4 py-3 text-base font-medium text-red-500 hover:bg-red-50 rounded-xl">Log Out</button>
-                            </div>
-
+                                    <Link href="/register">
+                                        <Button className="w-full bg-orange-500 text-white">
+                                            Register
+                                        </Button>
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </div>
-                )
-            }
+                )};
         </nav >
     );
 }

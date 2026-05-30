@@ -1,4 +1,7 @@
+'use client'
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import {
     FaEnvelope,
     FaLock,
@@ -8,6 +11,36 @@ import {
 } from "react-icons/fa6";
 
 const LoginPage = () => {
+
+    const handleLogIn = async (e) => {
+
+
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const loginData = Object.fromEntries(formData.entries());
+
+
+
+        const { data, error } = await authClient.signIn.email({
+            email: loginData.email,
+            password: loginData.password,
+            callbackURL: "/",
+        });
+
+        if (error) {
+            console.log(error);
+            toast.error(error.message || "LogIn Failed");
+            return;
+        }
+
+        console.log(data);
+        toast.success("LogIn Successfully");
+
+    };
+
+
     return (
         <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-100">
 
@@ -78,7 +111,7 @@ const LoginPage = () => {
 
 
                         {/* Form */}
-                        <form className="space-y-6">
+                        <form onSubmit={handleLogIn} className="space-y-6">
 
                             {/* Email */}
                             <div>
@@ -92,6 +125,7 @@ const LoginPage = () => {
                                     <FaEnvelope className="text-gray-400" />
 
                                     <input
+                                        name="email"
                                         type="email"
                                         placeholder="Enter your email"
                                         className="h-full w-full bg-transparent px-3 outline-none"
@@ -122,6 +156,7 @@ const LoginPage = () => {
                                     <FaLock className="text-gray-400" />
 
                                     <input
+                                        name="password"
                                         type="password"
                                         placeholder="Enter your password"
                                         className="h-full w-full bg-transparent px-3 outline-none"
@@ -139,6 +174,7 @@ const LoginPage = () => {
                                 <label className="flex items-center gap-3 text-sm text-gray-600">
 
                                     <input
+                                        name="checkbox"
                                         type="checkbox"
                                         className="h-4 w-4 rounded border-gray-300 accent-orange-500"
                                     />
