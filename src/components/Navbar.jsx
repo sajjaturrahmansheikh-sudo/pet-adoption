@@ -25,7 +25,7 @@ export function MyNav() {
     const router = useRouter();
 
     const { data: session, isPending } = useSession();
-    console.log(session);
+
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -96,64 +96,151 @@ export function MyNav() {
                                 </>
                             </> :
                                 <div className="relative group">
-                                    <button className="flex items-center gap-3 rounded-full p-1 hover:bg-orange-50">
+
+                                    {/* Profile Button */}
+                                    <button
+                                        className="
+            flex items-center gap-3 rounded-full border border-transparent
+            bg-white/60 px-2 py-1.5
+            transition-all duration-300
+            hover:border-orange-200
+            hover:bg-orange-50
+            hover:shadow-lg hover:shadow-orange-100
+        "
+                                    >
                                         <Image
                                             src={
                                                 session?.user?.image ||
                                                 "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"
                                             }
                                             alt="avatar"
-                                            width={40}
-                                            height={40}
-                                            className="h-10 w-10 rounded-full object-cover"
+                                            width={44}
+                                            height={44}
+                                            className="
+                h-11 w-11 rounded-full object-cover
+                ring-2 ring-orange-100
+                transition-all duration-300
+                group-hover:ring-orange-300
+            "
                                         />
 
                                         <div className="hidden text-left lg:block">
-                                            <p className="max-w-[140px] truncate text-sm font-semibold">
+                                            <p className="max-w-[140px] truncate text-sm font-semibold text-slate-800">
                                                 {session?.user?.name}
                                             </p>
 
-                                            <p className="text-xs text-gray-500">
-                                                Pet Lover
+                                            <p className="text-xs text-slate-500">
+                                                Pet Lover 🐾
                                             </p>
                                         </div>
                                     </button>
 
-                                    <div className="absolute right-0 top-14 hidden w-64 overflow-hidden rounded-3xl border bg-white shadow-2xl group-hover:block">
-                                        <div className="bg-orange-50 px-5 py-4">
-                                            <p className="font-semibold">
-                                                {session?.user?.name}
-                                            </p>
+                                    {/* Dropdown */}
+                                    <div
+                                        className="
+            invisible absolute right-0 top-16 z-50 w-72
+            translate-y-3 opacity-0
+            overflow-hidden rounded-3xl
+            border border-orange-100
+            bg-white/95 backdrop-blur-xl
+            shadow-[0_20px_50px_rgba(0,0,0,0.12)]
+            transition-all duration-300
+            group-hover:visible
+            group-hover:translate-y-0
+            group-hover:opacity-100
+        "
+                                    >
 
-                                            <p className="truncate text-xs text-slate-500">
-                                                {session?.user?.email}
-                                            </p>
+                                        {/* Top Profile */}
+                                        <div className="bg-gradient-to-r from-orange-500 to-orange-400 p-5 text-white">
+
+                                            <div className="flex items-center gap-3">
+
+                                                <Image
+                                                    src={
+                                                        session?.user?.image ||
+                                                        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"
+                                                    }
+                                                    alt="avatar"
+                                                    width={50}
+                                                    height={50}
+                                                    className="rounded-full border-2 border-white object-cover"
+                                                />
+
+                                                <div>
+                                                    <h3 className="font-semibold">
+                                                        {session?.user?.name}
+                                                    </h3>
+
+                                                    <p className="max-w-[180px] truncate text-xs text-orange-100">
+                                                        {session?.user?.email}
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
                                         </div>
 
-                                        <Link
-                                            href="/dashboard"
-                                            className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50"
-                                        >
-                                            <LayoutDashboard size={16} />
-                                            Dashboard
-                                        </Link>
+                                        {/* Menu */}
+                                        <div className="p-2">
 
-                                        <Link
-                                            href="/settings"
-                                            className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50"
-                                        >
-                                            <Settings size={16} />
-                                            Settings
-                                        </Link>
+                                            <Link
+                                                href="/dashboard"
+                                                className="
+                    flex items-center gap-3 rounded-2xl px-4 py-3
+                    text-sm font-medium text-slate-700
+                    transition-all duration-200
+                    hover:bg-orange-50 hover:text-orange-600
+                "
+                                            >
+                                                <LayoutDashboard size={18} />
+                                                Dashboard
+                                            </Link>
 
-                                        <button
-                                            onClick={handleLogOut}
-                                            className="flex w-full items-center gap-3 px-5 py-3 text-red-500 hover:bg-red-50"
-                                        >
-                                            <LogOut size={16} />
-                                            Logout
-                                        </button>
+                                            <Link
+                                                href="/add-pet"
+                                                className="
+                    flex items-center gap-3 rounded-2xl px-4 py-3
+                    text-sm font-medium text-slate-700
+                    transition-all duration-200
+                    hover:bg-orange-50 hover:text-orange-600
+                "
+                                            >
+                                                <Plus size={18} />
+                                                Add Pet
+                                            </Link>
+
+                                            <Link
+                                                href="/settings"
+                                                className="
+                    flex items-center gap-3 rounded-2xl px-4 py-3
+                    text-sm font-medium text-slate-700
+                    transition-all duration-200
+                    hover:bg-orange-50 hover:text-orange-600
+                "
+                                            >
+                                                <Settings size={18} />
+                                                Settings
+                                            </Link>
+
+                                            <div className="my-2 border-t border-slate-100"></div>
+
+                                            <button
+                                                onClick={handleLogOut}
+                                                className="
+                    flex w-full items-center gap-3 rounded-2xl px-4 py-3
+                    text-sm font-medium text-red-500
+                    transition-all duration-200
+                    hover:bg-red-50
+                "
+                                            >
+                                                <LogOut size={18} />
+                                                Logout
+                                            </button>
+
+                                        </div>
                                     </div>
+
                                 </div>
                         }
 

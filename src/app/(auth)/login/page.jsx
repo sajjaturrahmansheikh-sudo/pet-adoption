@@ -29,6 +29,7 @@ const LoginPage = () => {
             callbackURL: "/",
         });
 
+
         if (error) {
             console.log(error);
             toast.error(error.message || "LogIn Failed");
