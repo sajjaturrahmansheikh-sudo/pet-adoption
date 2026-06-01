@@ -1,3 +1,5 @@
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -11,24 +13,28 @@ import {
 } from "react-icons/fa6";
 
 
-const fetchSinglePet = async (id) => {
+const fetchSinglePet = async (id, token) => {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/all-pets/${id}`,
         {
-            cache: "no-store",
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
         }
     );
-    const data = await res.json();
-    return data || {};
-}
+
+    return res.json();
+};
 
 
 
 const PetDetails = async ({ params }) => {
     const { id } = await params;
+    const tokenData = await auth.api.getToken({
+        headers: await headers()
+    });
 
-    const pet = await fetchSinglePet(id);
-    console.log(pet);
+    const pet = await fetchSinglePet(id, tokenData.token);
 
 
     return (

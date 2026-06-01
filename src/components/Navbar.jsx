@@ -130,7 +130,7 @@ export function MyNav() {
                                             </p>
 
                                             <p className="text-xs text-slate-500">
-                                                Pet Lover 🐾
+                                                Pet Lover 
                                             </p>
                                         </div>
                                     </button>
