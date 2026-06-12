@@ -16,13 +16,17 @@ export default async function DashboardPage() {
         headers: await headers()
     })
 
+    if (!session?.user || !token) {
+        redirect("/login")
+    }
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoption/${session?.user?.id}`, {
         headers: {
             Authorization: `Bearer ${token}`
-        }
+        },
+        cache: "no-store"
     })
-    const adoptions = await res.json();
-    console.log(adoptions);
+    const adoptions = await res.json() || [];
 
 
     return (
