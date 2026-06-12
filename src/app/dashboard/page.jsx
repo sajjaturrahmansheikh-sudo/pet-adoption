@@ -133,6 +133,9 @@ export default async function DashboardPage() {
                                             </p>
                                         </div>
 
+                                        <div>
+                                            <p className="text-sm text-slate-500">{new Date(adoption?.adoptAt).toDateString()}</p>
+                                        </div>
                                         {/* Actions */}
                                         <div className="flex gap-3 mt-6">
 

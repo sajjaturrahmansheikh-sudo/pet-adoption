@@ -1,128 +1,57 @@
 import PetCard from "@/components/PetCard";
+import SearchBar from "@/components/SearchBar";
 import { fetchPets } from "@/lib/pets/data";
-import {
-    Button,
-    SearchField
-} from "@heroui/react";
 
+const AllPets = async ({ searchParams }) => {
 
-const AllPets = async () => {
+    const params = await searchParams;
 
-    const pets = await fetchPets();
+    const search = params?.search || "";
+
+    const pets = await fetchPets(search);
 
     return (
-        <div className="container mx-auto px-5 py-16">
+        <div className="container mx-auto px-5 py-16 space-y-5">
 
-            {/* Header Section */}
-            <div className="mb-10 flex flex-col items-center justify-center text-center">
+            <SearchBar />
 
-                <p className="mb-3 rounded-full bg-orange-100 px-4 py-1 text-sm font-medium text-orange-500">
-                    Find Your Perfect Companion
-                </p>
+            {
+                search && (
+                    <p className="mt-6 mb-8">
+                        Showing result for:
+                        <span className="text-orange-500 font-bold">
+                            {` "${search}" `}
+                        </span>
+                    </p>
+                )
+            }
 
-                <h1 className="text-4xl font-bold text-gray-900 md:text-5xl">
-                    Explore All Pets
-                </h1>
+            {
+                pets?.length > 0 ? (
 
-                <p className="mt-4 max-w-2xl text-gray-500">
-                    Browse adorable pets looking for a loving home.
-                    Filter, search, and discover your next furry friend.
-                </p>
-            </div>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
-
-
-            {/* Filter & Search Section */}
-            <div className="mb-12 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
-
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-
-                    {/* Search */}
-                    <div className="lg:col-span-2">
-
-                        <SearchField name="search">
-
-                            <SearchField.Group className="h-12 rounded-2xl border border-gray-200 bg-white shadow-sm">
-
-                                <SearchField.SearchIcon />
-
-                                <SearchField.Input
-                                    placeholder="Search pets by name or breed..."
-                                    className="text-sm"
+                        {
+                            pets.map((pet) => (
+                                <PetCard
+                                    key={pet._id}
+                                    pet={pet}
                                 />
-
-                                <SearchField.ClearButton />
-
-                            </SearchField.Group>
-
-                        </SearchField>
+                            ))
+                        }
 
                     </div>
 
+                ) : (
 
-                </div>
+                    <div className="text-center py-20">
 
+                        <h2 className="text-3xl font-bold">
+                            No Pets Available
+                        </h2>
 
-            </div>
-
-
-
-            {/* Results */}
-            <div className="mb-6 flex items-center justify-between">
-
-                <div>
-
-                    <h2 className="text-2xl font-bold text-gray-800">
-                        Available Pets
-                    </h2>
-
-                    <p className="text-sm text-gray-500">
-                        Showing {pets?.length} pets
-                    </p>
-
-                </div>
-
-
-
-                <Button
-                    variant="bordered"
-                    radius="full"
-                >
-                    Reset Filters
-                </Button>
-
-            </div>
-
-
-
-            {/* Pets Grid */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-
-                {
-                    pets?.map((pet) => (
-                        <PetCard
-                            key={pet?._id}
-                            pet={pet}
-                        />
-                    ))
-                }
-
-            </div>
-
-
-
-            {/* Empty State */}
-            {
-                pets?.length === 0 && (
-
-                    <div className="mt-20 flex flex-col items-center justify-center text-center">
-
-                        <h3 className="text-2xl font-bold text-gray-700">
-                            No Pets Found
-                        </h3>
-
-                        <p className="mt-2 text-gray-500">
-                            Try adjusting your search or filters.
+                        <p className="mt-3 text-gray-500">
+                            No result found for {` "${search}" `}
                         </p>
 
                     </div>

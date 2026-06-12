@@ -1,13 +1,17 @@
-export const fetchPets = async () => {
+export const fetchPets = async (search = "") => {
+
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/all-pets`,
+        `${process.env.NEXT_PUBLIC_API_URL}/all-pets?search=${search}`,
         {
-            cache: "no-store",
+            cache: "no-store"
         }
     );
 
-    const data = await res.json();
-    return data || [];
+    if (!res.ok) {
+        throw new Error("Failed to fetch pets");
+    }
+
+    return await res.json();
 };
 export const fetchFeaturedPets = async () => {
     const res = await fetch(
