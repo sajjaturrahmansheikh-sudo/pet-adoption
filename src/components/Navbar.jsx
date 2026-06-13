@@ -60,7 +60,6 @@ export function MyNav() {
                     <div className="hidden md:flex gap-8 items-center">
                         <NavLink href="/" className="font-medium text-slate-700 hover:text-orange-600 transition-colors">Home</NavLink>
                         <NavLink href="/all-pets" className="font-medium text-slate-700 hover:text-orange-600 transition-colors">All pets</NavLink>
-                        <NavLink href="/my-requests" className="font-medium text-slate-700 hover:text-orange-600 transition-colors">My Requests</NavLink>
                         <NavLink href="/add-pet" className="font-medium text-slate-700 hover:text-orange-600 transition-colors">Add Pet</NavLink>
                     </div>
 
