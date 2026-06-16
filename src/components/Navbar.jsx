@@ -265,7 +265,7 @@ export function MyNav() {
                         <div className="flex flex-col gap-2">
                             <NavLink href="/">Home</NavLink>
                             <NavLink href="/all-pets">All Pets</NavLink>
-                            <NavLink href="/my-requests">My Requests</NavLink>
+                            <NavLink href="/all-pets">Dashboard</NavLink>
                             <NavLink href="/add-pet">Add Pet</NavLink>
                         </div>
 

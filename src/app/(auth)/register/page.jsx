@@ -29,17 +29,14 @@ const RegisterPage = () => {
         const { data, error } = await authClient.signUp.email({
             name: registerData.name,
             email: registerData.email,
-            email: registerData.image,
+            image: registerData.image,
             password: registerData.password,
         });
 
         if (error) {
-            console.log(error);
             toast.error(error.message || "Registration Failed");
             return;
         }
-
-        console.log(data);
         toast.success("Account Created Successfully");
 
         router.push("/")

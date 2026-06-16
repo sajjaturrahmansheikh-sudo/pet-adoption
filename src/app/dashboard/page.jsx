@@ -163,10 +163,10 @@ export default async function DashboardPage() {
 const NotFound = () => {
     return (
         <div className="p-12 text-center bg-slate-50 border rounded-2xl">
-            <p className="mb-4">No courses yet</p>
+            <p className="mb-4">No pets yet</p>
 
-            <Link href="/courses">
-                <Button>Browse Courses</Button>
+            <Link href="/all-pets">
+                <Button>Browse pets</Button>
             </Link>
         </div>
     );

@@ -6,51 +6,60 @@ import toast from "react-hot-toast";
 
 const AdoptButton = ({ pet }) => {
     const { data: session } = useSession();
-      const router = useRouter();
+    const router = useRouter();
 
 
 
     const handleAdopt = async () => {
-        const { data: jwtData } = await authClient.token()
-        
-      
+        try {
 
-        const token = jwtData?.token;
-        if(!token){
-            toast.error("authentication failed!")
-            return
+            if (!session?.user) {
+                toast.error("Login First");
+                return;
+            }
+
+            const { data } = await authClient.token();
+
+            console.log("TOKEN:", data);
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/adoption/${pet._id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Bearer ${data?.token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        userId: session.user.id,
+                        userEmail: session.user.email,
+                        name: session.user.name,
+                        ...pet
+                    })
+                }
+            );
+
+            console.log(res);
+
+            const result = await res.json();
+
+            console.log(result);
+
+            if (!res.ok) {
+                throw new Error(result.message);
+            }
+
+            toast.success("Adoption Success");
+
+            router.push("/dashboard");
+
         }
-        const updatedData = {
-            userId : session?.user?.id,
-            Name : session?.user?.name,
-            userEmail: session?.user?.email,
-            image: pet?.image,
-            breed: pet?.breed,
-            location: pet?.location,
-            petName: pet?.name,
-            price: pet?.price,
-            gender: pet?.gender,
-            description: pet?.description
+        catch (err) {
+            console.log("ERROR:", err);
+
+            toast.error(err.message || "Request Failed");
         }
-
-    const res =   await fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoption/${pet?._id}`,{
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body : JSON.stringify(updatedData)
-        })
-        
-        const data = await res.json();
-
-        if(!data){
-            toast.error("Something went wrong")
-            return
-        }
-
-        router.push("/dashboard")
-    }   
+    };
 
 
     return (

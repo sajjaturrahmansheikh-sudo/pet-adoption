@@ -45,9 +45,14 @@ const AddPetForm = () => {
 
     const handleAddPet = async (formData) => {
         "use server"
-        const data = await addPet(formData)
+
+        const data =
+            await addPet(formData);
+
+        console.log(data);
+
         if (data?.insertedId) {
-            redirect("/all-pets")
+            redirect("/all-pets");
         }
     }
 
