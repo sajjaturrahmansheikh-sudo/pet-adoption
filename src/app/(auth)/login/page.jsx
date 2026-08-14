@@ -41,11 +41,17 @@ const LoginPage = () => {
 
     };
 
-    const handleGoogleSignIn = async () => {
-        await authClient.signIn.social({
-            provider: 'google'
-        })
-    }
+    const handleGoogleLogin = async () => {
+        const { data, error } = await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/",
+        });
+
+        if (error) {
+            console.log(error);
+            toast.error(error.message || "Google login failed");
+        }
+    };
 
 
 
