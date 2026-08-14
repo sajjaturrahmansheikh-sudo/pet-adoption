@@ -41,6 +41,14 @@ const LoginPage = () => {
 
     };
 
+    const handleGoogleSignIn = async () => {
+        await authClient.signIn.social({
+            provider: 'google'
+        })
+    }
+
+
+
 
     return (
         <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-100">
@@ -217,7 +225,7 @@ const LoginPage = () => {
                         {/* Social Login */}
                         <div className="grid gap-4 sm:grid-cols-2">
 
-                            <button className="flex h-14 items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white font-medium text-gray-700 transition-all duration-300 hover:border-orange-300 hover:bg-orange-50">
+                            <button onClick={handleGoogleSignIn} className="flex h-14 items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white font-medium text-gray-700 transition-all duration-300 hover:border-orange-300 hover:bg-orange-50">
 
                                 <FaGoogle className="text-lg" />
 
